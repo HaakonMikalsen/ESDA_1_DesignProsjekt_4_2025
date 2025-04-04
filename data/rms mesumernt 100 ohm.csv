@@ -1,0 +1,13 @@
+#Digilent WaveForms Spectrum Measurements
+#Device Name: Discovery2
+#Serial Number: SN:210321B81678
+#Date Time: 2025-03-28 22:32:54.654
+
+#2,4kHz
+#100 ohm 
+#rms foru
+Channel,Name,Value,Frequency
+T1,FF,0.12916 Ṽ,2.4 kHz
+T1,2nd,1.3971 mṼ,4.7997 kHz
+T1,3rd,0.98689 mṼ,7.1999 kHz
+T1,4th,0.07166 mṼ,9.6026 kHz
