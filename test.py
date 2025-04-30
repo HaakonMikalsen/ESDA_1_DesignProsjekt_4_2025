@@ -20,14 +20,21 @@ T = 1
 t = np.linspace(-T * 2, T * 2, 10000)
 
 
-# for n_terms in [1, 2, 3, 5, 10, 20, 50, 100]:
-for n_terms in [100]:
+for n_terms in [1, 2, 3, 5, 10, 20, 50, 100]:
+# for n_terms in [100]:
     n_values = np.arange(0, n_terms + 1)
     c_values = np.array([cn(n) * (n == 0) + (n != 0) * cn(n) * 2 for n in n_values])
 
     plt.stem(n_values, np.abs(c_values))
 
     plt.show()
+
+    # n_values = np.arange(-n_terms, n_terms + 1)
+    # c_values = np.array([cn(n) * (n == 0) + (n != 0) * cn(n) for n in n_values])
+
+    # plt.stem(n_values, c_values)
+
+    # plt.show()
 
     n_values = np.arange(-n_terms, n_terms + 1)
     c_values = np.array([cn(n) for n in n_values])

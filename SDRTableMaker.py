@@ -10,15 +10,26 @@ oscilloscopeFileName = [
 ]
 
 
+
 def SDR(dataMeasure, dataOscilloscope):
-    VxHatAndre = dataOscilloscope["rms"] ** 2
+    VxHat = dataOscilloscope["rms"].item()
+    VxHat2 = VxHat ** 2
 
     frekvens: np.ndarray = dataMeasure["frekvens"]
     frekvensIndex = np.where(frekvens == 2.4)
-    VxAndre = dataMeasure["rms"][frekvensIndex] ** 2
-    sdr = VxAndre / (VxHatAndre - VxAndre)
+
+    Vx = dataMeasure["rms"][frekvensIndex].item()
+    Vx2 = Vx ** 2
+
+    sdr = Vx2 / (VxHat2 - Vx2)
     sdrDB = 10 * np.log10(sdr)
-    return [sdr, sdrDB,dataMeasure["rms"][frekvensIndex],dataOscilloscope["rms"]]
+
+    print(f"________________________________")
+    print(f"Vx = {Vx} \nVx² = {Vx2} \nVxhat = {VxHat} \nVxhat² = {VxHat2} \nSDR = {sdr} \nSDR[dB] = {sdrDB}")
+    print(f"________________________________")
+
+    return [sdr, sdrDB, Vx, VxHat]
+
 
 
 measureData = [fM.loadDataMeasurements(fileName) for fileName in measureFileName]
@@ -48,11 +59,11 @@ plt.figure(figsize=(12, 8))
 # plt.tight_layout()
 for data in zip(measureData, oscilloscopeData, ["1k", "100", "50"], [1, 2, 3]):
     SDRVals = SDR(data[0], data[1])
-    print(f"R={data[2]} | SDR:{SDRVals[0][0]} | SDRdB:{SDRVals[1][0]}")
+    print(f"R={data[2]} | SDR:{SDRVals[0]} | SDRdB:{SDRVals[1]}")
     R =data[2]
     if data[2] == "1k":
         R = "1000"
-    tableFile.write(f"{int(R)} &  {float(SDRVals[0][0]):.3} &  {float(SDRVals[1][0]):.3} & {float(Q(data[2])):.3} & {float(SDRVals[2]):.3}& {float(SDRVals[3]):.3} \\\\ \n")
+    tableFile.write(f"{int(R)} &  {float(SDRVals[0]):.3} &  {float(SDRVals[1]):.3} & {float(Q(data[2])):.3} & {float(SDRVals[2]):.3}& {float(SDRVals[3]):.3} \\\\ \n")
     tableFile.write("\\hline \n")
 
     T = 1 / 2.4e3
@@ -88,7 +99,7 @@ for data in zip(measureData, oscilloscopeData, ["1k", "100", "50"], [1, 2, 3]):
     plt.ylabel("Spenning [mV]", fontsize=12)
 
     plt.title(
-        f"SDR = {SDRVals[1][0]:.2f}dB, R={data[2]}Ω", fontsize=14, fontweight="bold"
+        f"SDR = {SDRVals[1]:.2f}dB, R={data[2]}Ω", fontsize=14, fontweight="bold"
     )
 
     plt.plot(
