@@ -42,7 +42,7 @@ def normalize(x):
     return 2 * (x - np.min(x)) / (np.max(x) - np.min(x)) - 1
 
 
-tableFile = open("tableFiles.txt", mode="w", encoding="utf-8")
+#tableFIle = open("#tableFIles.txt", mode="w", encoding="utf-8")
 
 def Q(R):
     if R == "1k":
@@ -59,12 +59,12 @@ plt.figure(figsize=(12, 8))
 # plt.tight_layout()
 for data in zip(measureData, oscilloscopeData, ["1k", "100", "50"], [1, 2, 3]):
     SDRVals = SDR(data[0], data[1])
-    print(f"R={data[2]} | SDR:{SDRVals[0]} | SDRdB:{SDRVals[1]}")
+    print(f"R={data[2]} | SDR:{SDRVals[0]} | SDRdB:{SDRVals[1]}| Q= {Q(data[2])}")
     R =data[2]
     if data[2] == "1k":
         R = "1000"
-    tableFile.write(f"{int(R)} &  {float(SDRVals[0]):.3} &  {float(SDRVals[1]):.3} & {float(Q(data[2])):.3} & {float(SDRVals[2]):.3}& {float(SDRVals[3]):.3} \\\\ \n")
-    tableFile.write("\\hline \n")
+    #tableFIle.write(f"{int(R)} &  {float(SDRVals[0]):.3} &  {float(SDRVals[1]):.3} & {float(Q(data[2])):.3} & {float(SDRVals[2]):.3}& {float(SDRVals[3]):.3} \\\\ \n")
+    #tableFIle.write("\\hline \n")
 
     T = 1 / 2.4e3
 
@@ -117,10 +117,10 @@ for data in zip(measureData, oscilloscopeData, ["1k", "100", "50"], [1, 2, 3]):
     plt.legend(frameon=True, edgecolor="dimgray", facecolor="lavender", fontsize=12)
 
 plt.tight_layout()
-tableFile.write("\n---------------------- \n")
+#tableFIle.write("\n---------------------- \n")
 
-tableFile.flush()
-tableFile.close()
+#tableFIle.flush()
+#tableFIle.close()
 
 
 plt.savefig("./bilder/treSignaler.png")
